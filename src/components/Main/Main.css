@@ -1,12 +1,12 @@
 .fade-enter,
 .fade-appear {
   opacity: 0;
-  /* transform: translateY(-100%); */
+  transform: translateX(-5%);
 }
 .fade-enter-active,
 .face-appear-active {
   opacity: 1;
-  /* transform: translateY(0); */
+  transform: translateX(0);
   transition: 300ms ease;
 }
 .fade-exit {

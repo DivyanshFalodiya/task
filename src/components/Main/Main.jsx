@@ -58,7 +58,7 @@ const MainComponent = () => {
         }}
       >
         <TransitionGroup component={null}>
-          <CSSTransition key={location.key} timeout={300} classNames="fade">
+          <CSSTransition key={location.key} timeout={500} classNames="fade">
             <Routes location={location}>
               {routes.map(({ path, Component }, index) => (
                 <Route key={index} path={path} element={<Component />} />

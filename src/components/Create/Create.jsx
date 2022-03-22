@@ -1,4 +1,4 @@
-import { Cancel, Check, ViewAgenda } from "@mui/icons-material";
+import { Cancel, Check } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -9,11 +9,16 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
+import Snack from "../Misc/Snack";
 
+// Styles
 const useStyles = makeStyles((theme) => ({
   input: {
     "&:-webkit-autofill": {
-      WebkitBoxShadow: `0 0 0 10000px ${theme.palette.background.paper} inset`,
+      WebkitBoxShadow: `0 0 0 1000px ${
+        theme.palette.mode === "dark" ? "#353535" : "#EBEBEB"
+      } inset`,
+      borderRadius: 0,
     },
   },
 }));
@@ -31,8 +36,13 @@ const Create = () => {
     email: { value: "", dirty: false, valid: false },
     about: { value: "", dirty: false, valid: false },
   });
+  const [snackOpt, setSnackOpt] = useState({
+    severity: "success",
+    message: "",
+    open: false,
+  });
 
-  // Helper
+  // Helpers
   const dataMapping = [
     { field: "fname", label: "First Name", type: "text" },
     { field: "lname", label: "Last Name", type: "text" },
@@ -40,12 +50,29 @@ const Create = () => {
     { field: "dob", label: "Date of Birth", type: "date" },
     { field: "about", label: "About", type: "text" },
   ];
+
+  // Get AGE by DOB
   const getAge = (date) => {
     var age = Math.floor(
       (new Date() - new Date(date)) / 1000 / 60 / 60 / 24 / 365
     );
-    console.log(age);
     return age;
+  };
+
+  // Reset all data
+  const resetData = () => {
+    setData({
+      fname: { value: "", dirty: false, valid: false },
+      lname: { value: "", dirty: false, valid: false },
+      dob: { value: "", dirty: false, valid: false },
+      email: { value: "", dirty: false, valid: false },
+      about: { value: "", dirty: false, valid: false },
+    });
+  };
+
+  // Close Snackbar
+  const handleSnackClose = () => {
+    setSnackOpt((prev) => ({ ...prev, open: false }));
   };
 
   // Validity Check
@@ -77,7 +104,14 @@ const Create = () => {
   // Handle Change
   const handleChange = (e) => {
     setData((prev) => {
-      let value = e.target.value.trim();
+      let value = e.target.value;
+      if (
+        e.target.name === "email" ||
+        e.target.name === "fname" ||
+        e.target.name === "lname" ||
+        e.target.name === "dob"
+      )
+        value = value.trim();
       return {
         ...prev,
         [e.target.name]: {
@@ -89,8 +123,53 @@ const Create = () => {
     });
   };
 
+  // Handle Submit
+  const submit = () => {
+    let users = JSON.parse(localStorage.getItem("users") || "[]");
+    let flag = false;
+    for (const f in data) {
+      if (!data[f].valid) {
+        flag = true;
+        break;
+      }
+    }
+    if (flag) {
+      // Set Error Snackbar
+      setSnackOpt({
+        open: true,
+        message: "Invalid Data!",
+        severity: "error",
+      });
+    } else {
+      let user = users.find((u) => u.email === data.email.value);
+      if (user) {
+        setSnackOpt({
+          open: true,
+          message: "Email Address Already In Use!",
+          severity: "error",
+        });
+      } else {
+        data.about.value = data.about.value.trim();
+        users.push({
+          email: data.email.value,
+          fname: data.fname.value,
+          lname: data.lname.value,
+          dob: data.dob.value,
+          about: data.about.value,
+        });
+        localStorage.setItem("users", JSON.stringify(users));
+        resetData();
+        setSnackOpt({
+          open: true,
+          message: "Data Saved!",
+          severity: "success",
+        });
+      }
+    }
+  };
+
   return (
-    <>
+    <Box>
       <Typography
         variant="h5"
         align="center"
@@ -141,11 +220,9 @@ const Create = () => {
                 InputProps={{
                   endAdornment: data[d.field].dirty ? (
                     data[d.field].valid ? (
-                      <Check
-                        sx={{ background: "green", borderRadius: "50%" }}
-                      />
+                      <Check sx={{ color: "green" }} />
                     ) : (
-                      <Cancel sx={{ background: "red", borderRadius: "50%" }} />
+                      <Cancel sx={{ color: "red" }} />
                     )
                   ) : null,
                 }}
@@ -155,12 +232,19 @@ const Create = () => {
           <Button
             variant="contained"
             sx={{ margin: theme.spacing(2), width: "100%" }}
+            onClick={submit}
           >
             Submit
           </Button>
         </form>
       </Box>
-    </>
+      <Snack
+        severity={snackOpt.severity}
+        message={snackOpt.message}
+        open={snackOpt.open}
+        handleClose={handleSnackClose}
+      />
+    </Box>
   );
 };
 
