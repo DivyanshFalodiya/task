@@ -1,9 +1,15 @@
+import { Container, Grid, Typography } from "@mui/material";
+
 // View Page
 const View = () => {
   return (
-    <div>
-      <h1>View</h1>
-    </div>
+    <>
+      <Grid container>
+        <Grid item>
+          <Typography>View</Typography>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

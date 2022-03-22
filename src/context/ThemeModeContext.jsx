@@ -3,11 +3,13 @@ import { createContext, useState } from "react";
 // Theme Context
 export const ThemeModeContext = createContext();
 
+const themes = ["dark", "light"];
+
 // Helper Function
 const getTheme = () => {
   const th = localStorage.getItem("theme");
-  if (th) return th;
-  return "light";
+  if (themes.includes(th)) return th;
+  return themes[0];
 };
 
 // Theme Context Provider

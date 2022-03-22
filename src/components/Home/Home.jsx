@@ -1,15 +1,19 @@
-import {
-  Card,
-  CardActionArea,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { Add, ViewList } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   gridItems: {
-    padding: theme.spacing(5),
+    padding: theme.spacing(3),
+    display: "flex",
+    justifyContent: "center",
+  },
+  cardActions: {
+    padding: theme.spacing(2),
+  },
+  link: {
+    textDecoration: "none",
   },
 }));
 
@@ -17,29 +21,29 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   return (
-    <Container
-      sx={{
-        width: "100vw",
-        minHeight: "100vh",
-      }}
-    >
-      <Grid container sx={{ height: "100%" }}>
-        <Grid item xs={12} sm={6}>
-          <Card>
-            <CardActionArea>
-              <Typography>VIEW</Typography>
-            </CardActionArea>
-          </Card>
+    <>
+      <Grid
+        container
+        display="flex"
+        alignItems="center"
+        sx={{ height: "100%" }}
+      >
+        <Grid item xs={12} sm={6} className={classes.gridItems}>
+          <Link to="/view" className={classes.link}>
+            <Button variant="contained" startIcon={<ViewList />}>
+              View
+            </Button>
+          </Link>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Card>
-            <CardActionArea>
-              <Typography>CREATE</Typography>
-            </CardActionArea>
-          </Card>
+        <Grid item xs={12} sm={6} className={classes.gridItems}>
+          <Link to="/create" className={classes.link}>
+            <Button variant="contained" startIcon={<Add />}>
+              Create
+            </Button>
+          </Link>
         </Grid>
       </Grid>
-    </Container>
+    </>
   );
 };
 

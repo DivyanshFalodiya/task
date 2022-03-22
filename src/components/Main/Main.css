@@ -1,0 +1,17 @@
+.fade-enter,
+.fade-appear {
+  opacity: 0;
+  /* transform: translateY(-100%); */
+}
+.fade-enter-active,
+.face-appear-active {
+  opacity: 1;
+  /* transform: translateY(0); */
+  transition: 300ms ease;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+}
