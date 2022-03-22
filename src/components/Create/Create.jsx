@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Snack from "../Misc/Snack";
 
 // Styles
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const Create = () => {
   const theme = useTheme();
   const classes = useStyles();
+  const navigation = useNavigate();
 
   // States
   const [data, setData] = useState({
@@ -124,7 +126,8 @@ const Create = () => {
   };
 
   // Handle Submit
-  const submit = () => {
+  const submit = (e) => {
+    e.preventDefault();
     let users = JSON.parse(localStorage.getItem("users") || "[]");
     let flag = false;
     for (const f in data) {
@@ -156,6 +159,7 @@ const Create = () => {
           lname: data.lname.value,
           dob: data.dob.value,
           about: data.about.value,
+          timestamp: Date.now(),
         });
         localStorage.setItem("users", JSON.stringify(users));
         resetData();
@@ -164,6 +168,7 @@ const Create = () => {
           message: "Data Saved!",
           severity: "success",
         });
+        navigation("/", { replace: true });
       }
     }
   };
@@ -187,6 +192,7 @@ const Create = () => {
       >
         <form
           autoComplete="chrome-off"
+          onSubmit={submit}
           style={{
             margin: theme.spacing(2),
             padding: theme.spacing(2),
@@ -232,9 +238,9 @@ const Create = () => {
           <Button
             variant="contained"
             sx={{ margin: theme.spacing(2), width: "100%" }}
-            onClick={submit}
+            type="submit"
           >
-            Submit
+            Save
           </Button>
         </form>
       </Box>

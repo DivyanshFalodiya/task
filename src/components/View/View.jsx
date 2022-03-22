@@ -1,15 +1,18 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, useTheme } from "@mui/material";
 
 // View Page
 const View = () => {
+  const theme = useTheme();
   return (
-    <>
-      <Grid container>
-        <Grid item>
-          <Typography>View</Typography>
-        </Grid>
-      </Grid>
-    </>
+    <Box>
+      <Typography
+        variant="h5"
+        align="center"
+        color={theme.palette.text.primary}
+      >
+        View Users
+      </Typography>
+    </Box>
   );
 };
 
