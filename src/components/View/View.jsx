@@ -6,6 +6,8 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
+  TableContainer,
+  TablePagination,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -22,9 +24,14 @@ const CustomTC = styled(TableCell)(({ theme }) => ({
 const View = () => {
   const theme = useTheme();
 
+  // Constants
+  const rowOptions = [5, 10, 15, 20, 25];
+
   // States
   const [users, setUsers] = useState([]);
   const [order, setOrder] = useState("asc");
+  const [maxRows, setMaxRows] = useState(rowOptions[0]);
+  const [page, setPage] = useState(0);
 
   // Helpers
   const labels = [
@@ -88,26 +95,37 @@ const View = () => {
   // Fetch Users
   // Made async because it may end up asynchronous when working with api calls.
   const fetchUsers = async () => {
-    // return JSON.parse(localStorage.getItem("users") || "[]");
-    let temp = [];
-    for (let i = 0; i < 53; i++) {
-      temp.push({
-        fname: "Divyansh",
-        lname: "Falodiya",
-        email: "divyanshfofficial@gmail.com",
-        dob: "2001-02-25",
-        about:
-          "Let this paragraph be a reminder for me to do something about my life that is worth the time. Keep striving for the best out there. Learn and hustle every day.",
-        timestamp: Date.now(),
-      });
-    }
-    return temp;
+    return JSON.parse(localStorage.getItem("users") || "[]");
+    // let temp = [];
+    // for (let i = 0; i < 53; i++) {
+    //   temp.push({
+    //     fname: "Divyansh",
+    //     lname: "Falodiya",
+    //     email: "divyanshfofficial@gmail.com",
+    //     dob: "2001-02-25",
+    //     about:
+    //       "Let this paragraph be a reminder for me to do something about my life that is worth the time. Keep striving for the best out there. Learn and hustle every day.",
+    //     timestamp: Date.now(),
+    //   });
+    // }
+    // return temp;
   };
 
   // Effect
   useEffect(() => {
     fetchUsers().then((res) => setUsers(res));
   }, []);
+
+  // Page Change
+  const handlePageChange = (e, p) => {
+    setPage(p);
+  };
+
+  // Max Row Change
+  const handleMaxRowChange = (e) => {
+    setMaxRows(parseInt(e.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
@@ -128,61 +146,74 @@ const View = () => {
           </Typography>
         </Box>
       ) : (
-        <Table
+        <TableContainer
           sx={{
             marginTop: theme.spacing(5),
           }}
         >
-          <TableHead>
-            {labels.map((l, index) => (
-              <CustomTC
-                key={index}
-                sx={{
-                  background: theme.palette.primary.main,
-                  color: theme.palette.primary.contrastText,
-                  minWidth: l.field === "about" ? 200 : "auto",
-                }}
-                sortDirection={l.field === "timestamp" ? order : false}
-              >
-                {l.field === "timestamp" ? (
-                  <TableSortLabel
-                    active={l.field === "timestamp"}
-                    direction={l.field === "timestamp" ? order : "asc"}
-                    onClick={toggleOrder}
-                    sx={{
-                      "&.Mui-active": {
-                        color: theme.palette.primary.contrastText,
-                      },
-                    }}
-                  >
-                    {l.label}
-                  </TableSortLabel>
-                ) : (
-                  l.label
-                )}
-              </CustomTC>
-            ))}
-          </TableHead>
-          <TableBody>
-            {users.map((u, index) => (
-              <TableRow key={index}>
-                {labels.map((l, lindex) => (
-                  <CustomTC
-                    key={lindex}
-                    sx={{
-                      verticalAlign: "top",
-                      background: theme.palette.background.paper,
-                    }}
-                  >
-                    {l.field !== "timestamp"
-                      ? u[l.field]
-                      : formatDate(u[l.field])}
-                  </CustomTC>
+          <Table>
+            <TableHead>
+              {labels.map((l, index) => (
+                <CustomTC
+                  key={index}
+                  sx={{
+                    background: theme.palette.primary.main,
+                    color: theme.palette.primary.contrastText,
+                    minWidth: l.field === "about" ? 200 : "auto",
+                  }}
+                  sortDirection={l.field === "timestamp" ? order : false}
+                >
+                  {l.field === "timestamp" ? (
+                    <TableSortLabel
+                      active={l.field === "timestamp"}
+                      direction={l.field === "timestamp" ? order : "asc"}
+                      onClick={toggleOrder}
+                      sx={{
+                        "&.Mui-active": {
+                          color: theme.palette.primary.contrastText,
+                        },
+                      }}
+                    >
+                      {l.label}
+                    </TableSortLabel>
+                  ) : (
+                    l.label
+                  )}
+                </CustomTC>
+              ))}
+            </TableHead>
+            <TableBody>
+              {users
+                .slice(page * maxRows, page * maxRows + maxRows)
+                .map((u, index) => (
+                  <TableRow key={index}>
+                    {labels.map((l, lindex) => (
+                      <CustomTC
+                        key={lindex}
+                        sx={{
+                          verticalAlign: "top",
+                          background: theme.palette.background.paper,
+                        }}
+                      >
+                        {l.field !== "timestamp"
+                          ? u[l.field]
+                          : formatDate(u[l.field])}
+                      </CustomTC>
+                    ))}
+                  </TableRow>
                 ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={rowOptions}
+            component={Box}
+            count={users.length}
+            rowsPerPage={maxRows}
+            page={page}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleMaxRowChange}
+          />
+        </TableContainer>
       )}
     </Box>
   );
