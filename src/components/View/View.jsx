@@ -167,7 +167,13 @@ const View = () => {
             {users.map((u, index) => (
               <TableRow key={index}>
                 {labels.map((l, lindex) => (
-                  <CustomTC key={lindex} sx={{ verticalAlign: "top" }}>
+                  <CustomTC
+                    key={lindex}
+                    sx={{
+                      verticalAlign: "top",
+                      background: theme.palette.background.paper,
+                    }}
+                  >
                     {l.field !== "timestamp"
                       ? u[l.field]
                       : formatDate(u[l.field])}

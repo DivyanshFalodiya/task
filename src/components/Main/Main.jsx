@@ -1,5 +1,11 @@
 import "./Main.css";
-import { Box, Container, createTheme, ThemeProvider } from "@mui/material";
+import {
+  Box,
+  Container,
+  createTheme,
+  GlobalStyles,
+  ThemeProvider,
+} from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useContext } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
@@ -20,8 +26,8 @@ const MainComponent = () => {
     palette: {
       mode: mode,
       background: {
-        paper: mode === "light" ? grey[50] : grey[900],
-        default: mode === "light" ? grey[300] : "#121212",
+        paper: mode === "light" ? grey[300] : grey[900],
+        default: mode === "light" ? grey[100] : "#121212",
       },
     },
   });
@@ -35,6 +41,27 @@ const MainComponent = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <GlobalStyles
+        styles={{
+          "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+            backgroundColor: theme.palette.background.default,
+            width: 10,
+            height: 8,
+          },
+          "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+            backgroundColor: mode === "light" ? grey[400] : grey[700],
+            borderRadius: 10,
+          },
+          "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
+            {
+              backgroundColor: mode === "light" ? grey[500] : grey[800],
+            },
+          "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
+            {
+              backgroundColor: mode === "light" ? grey[500] : grey[800],
+            },
+        }}
+      />
       <Box
         width="100vw"
         height="100vh"

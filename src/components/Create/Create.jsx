@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   input: {
     "&:-webkit-autofill": {
       WebkitBoxShadow: `0 0 0 1000px ${
-        theme.palette.mode === "dark" ? "#353535" : "#EBEBEB"
+        theme.palette.mode === "dark" ? "#353535" : "#D3D3D3"
       } inset`,
       borderRadius: 0,
     },
