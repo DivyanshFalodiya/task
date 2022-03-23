@@ -51,6 +51,7 @@ const MainComponent = () => {
 
       <Container
         sx={{
+          height: "100%",
           minHeight: "100vh",
           padding: theme.spacing(2),
           paddingTop: theme.spacing(3),

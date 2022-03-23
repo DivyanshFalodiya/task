@@ -10,8 +10,8 @@ import {
   useTheme,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { visuallyHidden } from "@mui/utils";
 import { useEffect, useState } from "react";
+import Back from "../Misc/Back";
 
 // Custom Table Cell
 const CustomTC = styled(TableCell)(({ theme }) => ({
@@ -110,7 +110,8 @@ const View = () => {
   }, []);
 
   return (
-    <Box sx={{ width: "100%", overflowX: "auto" }}>
+    <Box sx={{ width: "100%", overflowX: "auto", position: "relative" }}>
+      <Back />
       <Typography
         variant="h5"
         align="center"

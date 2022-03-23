@@ -10,6 +10,7 @@ import {
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Back from "../Misc/Back";
 import Snack from "../Misc/Snack";
 
 // Styles
@@ -174,7 +175,8 @@ const Create = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ width: "100%", position: "relative" }}>
+      <Back />
       <Typography
         variant="h5"
         align="center"
