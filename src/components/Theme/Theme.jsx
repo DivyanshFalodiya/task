@@ -21,7 +21,7 @@ const Theme = () => {
   return (
     <Box
       position="fixed"
-      sx={{ top: theme.spacing(2), right: theme.spacing(2) }}
+      sx={{ top: theme.spacing(2), right: theme.spacing(2), zIndex: 1000 }}
     >
       <Tooltip title={titles[mode].invText}>
         <IconButton onClick={changeMode}>

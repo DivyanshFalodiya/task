@@ -88,7 +88,20 @@ const View = () => {
   // Fetch Users
   // Made async because it may end up asynchronous when working with api calls.
   const fetchUsers = async () => {
-    return JSON.parse(localStorage.getItem("users") || "[]");
+    // return JSON.parse(localStorage.getItem("users") || "[]");
+    let temp = [];
+    for (let i = 0; i < 53; i++) {
+      temp.push({
+        fname: "Divyansh",
+        lname: "Falodiya",
+        email: "divyanshfofficial@gmail.com",
+        dob: "2001-02-25",
+        about:
+          "Let this paragraph be a reminder for me to do something about my life that is worth the time. Keep striving for the best out there. Learn and hustle every day.",
+        timestamp: Date.now(),
+      });
+    }
+    return temp;
   };
 
   // Effect
@@ -97,11 +110,12 @@ const View = () => {
   }, []);
 
   return (
-    <Box>
+    <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Typography
         variant="h5"
         align="center"
         color={theme.palette.text.primary}
+        sx={{ position: "sticky", left: 0 }}
       >
         View Users
       </Typography>
@@ -112,7 +126,11 @@ const View = () => {
           </Typography>
         </Box>
       ) : (
-        <Table sx={{ marginTop: theme.spacing(5) }}>
+        <Table
+          sx={{
+            marginTop: theme.spacing(5),
+          }}
+        >
           <TableHead>
             {labels.map((l, index) => (
               <CustomTC
@@ -120,6 +138,7 @@ const View = () => {
                 sx={{
                   background: theme.palette.primary.main,
                   color: theme.palette.primary.contrastText,
+                  minWidth: l.field === "about" ? 200 : "auto",
                 }}
                 sortDirection={l.field === "timestamp" ? order : false}
               >
@@ -146,11 +165,10 @@ const View = () => {
             {users.map((u, index) => (
               <TableRow key={index}>
                 {labels.map((l, lindex) => (
-                  <CustomTC key={lindex}>
-                    {" "}
+                  <CustomTC key={lindex} sx={{ verticalAlign: "top" }}>
                     {l.field !== "timestamp"
                       ? u[l.field]
-                      : formatDate(u[l.field])}{" "}
+                      : formatDate(u[l.field])}
                   </CustomTC>
                 ))}
               </TableRow>
