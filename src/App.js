@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 function App() {
   return (
     <ThemeModeProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/task">
         <MainComponent />
       </BrowserRouter>
     </ThemeModeProvider>
