@@ -176,14 +176,16 @@ const Create = () => {
 
   return (
     <Box sx={{ width: "100%", position: "relative" }}>
-      <Back />
-      <Typography
-        variant="h5"
-        align="center"
-        color={theme.palette.text.primary}
-      >
-        Create User
-      </Typography>
+      <Box sx={{ position: "sticky", left: 0 }}>
+        <Back />
+        <Typography
+          variant="h5"
+          align="center"
+          color={theme.palette.text.primary}
+        >
+          Create Users
+        </Typography>
+      </Box>
       <Box
         sx={{
           marginTop: theme.spacing(2),

@@ -110,16 +110,17 @@ const View = () => {
   }, []);
 
   return (
-    <Box sx={{ width: "100%", overflowX: "auto", position: "relative" }}>
-      <Back />
-      <Typography
-        variant="h5"
-        align="center"
-        color={theme.palette.text.primary}
-        sx={{ position: "sticky", left: 0 }}
-      >
-        View Users
-      </Typography>
+    <Box sx={{ width: "100%", overflowX: "auto" }}>
+      <Box sx={{ position: "sticky", left: 0 }}>
+        <Back />
+        <Typography
+          variant="h5"
+          align="center"
+          color={theme.palette.text.primary}
+        >
+          View Users
+        </Typography>
+      </Box>
       {users.length === 0 ? (
         <Box sx={{ textAlign: "center", marginTop: theme.spacing(5) }}>
           <Typography variant="subtitle" align="center" color="error">
